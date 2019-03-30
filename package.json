@@ -1,0 +1,34 @@
+{
+  "name": "bank_accounts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "db:create": "createdb bank_accounts",
+    "db:init": "psql -f schema.sql bank_accounts && psql -f seed.sql bank_accounts",
+    "db:destroy": "dropdb bank_accounts",
+    "db:reset": "npm run db:destroy; npm run db:create && npm run db:init",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seilcho7/week_7-bank-account-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seilcho7/week_7-bank-account-app/issues"
+  },
+  "homepage": "https://github.com/seilcho7/week_7-bank-account-app#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.5",
+    "pg-promise": "^8.6.4"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "nodemon": "^1.18.10"
+  }
+}

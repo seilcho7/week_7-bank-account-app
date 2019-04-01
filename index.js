@@ -29,7 +29,7 @@ const server = http.createServer(async (req, res) => {
                 res.statusCode = 404;
                 res.end('Resource not found.');
             }
-        } else if (method ==="POST") {
+        } else if (method === "POST") {
             let body = '';
             req.on('data', (chunk) => {
                 body += chunk.toString();
@@ -38,10 +38,35 @@ const server = http.createServer(async (req, res) => {
                 const parsedBody = querystring.parse(body);
                 const newAccountId = await Account.add(parsedBody);
                 res.end(`{ 
-                    id: ${newAccountId}
-                }`)
+                    "id": "${newAccountId}"
+                }`);
             });
-        }
+        } else if (method === "PUT") {
+            if (parts.length === 3) {
+                const orderId = parts[2];
+                let body = '';
+                req.on('data', (chunk) => {
+                    body += chunk.toString();
+                });
+
+                req.on('end', async () => {
+                    const parsedBody = querystring.parse(body);
+                    await Account.update(orderId, parsedBody);
+                    res.end(`{ "id": "${orderId} }`);
+                });
+            };
+        } else if (method === "DELETE") {
+            if (parts.length === 3) {
+                const orderId = parts[2];
+                await Account.delete(orderId);
+                res.end(`{ "message": "Deleted order with id ${orderId}" }`)
+
+            } else {
+                res.end(`{ "message": "Enter id you want to delete on after accounts/" }`);
+            };
+        };
+    } else {
+        res.end(` { "message": Wrong address. }`)
     }
 });
 

@@ -39,6 +39,19 @@ class Account {
             });
     }
 
+    static update(id, accountData) {
+        return db.result(`
+            update accounts
+            set first_name = $1, last_name = $2, account_id = $3, password = $4
+            where id=$5
+        `, [accountData.first_name, accountData.last_name, accountData.account_id, accountData.password, id])
+    }
+
+    static delete(id) {
+        return db.result(`
+            delete from accounts where id=${id}
+        `);
+    }
 
 }
 module.exports = Account;
